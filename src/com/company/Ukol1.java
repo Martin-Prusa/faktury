@@ -6,14 +6,17 @@ import java.util.ArrayList;
 public class Ukol1 {
     public static void preved(String nazev) {
         ArrayList<Integer> list = new ArrayList<>();
+        ArrayList<Integer> list2 = new ArrayList<>();
         try {
             BufferedReader br = new BufferedReader(new FileReader("input/"+nazev+".dat"));
             BufferedWriter bw = new BufferedWriter(new FileWriter("output1/"+nazev+".csv"));
             String nextLine = br.readLine();
             nextLine = br.readLine();
+            String[] pole = nextLine.split(",");
+            int cislo = Integer.parseInt(pole[0]);
 
             while(nextLine != null) {
-                String[] pole = nextLine.split(",");
+                pole = nextLine.split(",");
                 String spolecnost = najdiSpolecnost(Integer.parseInt(pole[1]));
                 bw.write(pole[0]+";"+spolecnost+";"+pole[2]);
                 bw.newLine();
@@ -22,13 +25,20 @@ public class Ukol1 {
                 if(spolecnost.contains("IČO") && !list.contains(Integer.parseInt(pole[1]))) {
                     list.add(Integer.parseInt(pole[1]));
                 }
+                while(cislo != Integer.parseInt(pole[0])) {
+                    list2.add(cislo);
+                    cislo++;
+                }
+                cislo++;
             }
             br.close();
             bw.close();
         } catch (IOException e) {
             System.out.println("Unable to write to file");
         }
+
         Ukol2.neznameSpolecnosti(list);
+        Ukol3.neznameFaktury(list2);
 
     }
 
