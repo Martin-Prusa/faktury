@@ -4,9 +4,10 @@ import java.io.*;
 import java.util.ArrayList;
 
 public class Ukol1 {
-    public static void preved(String nazev) {
+    public static int preved(String nazev) {
         ArrayList<Integer> list = new ArrayList<>();
         ArrayList<Integer> list2 = new ArrayList<>();
+        int suma = 0;
         try {
             BufferedReader br = new BufferedReader(new FileReader("input/"+nazev+".dat"));
             BufferedWriter bw = new BufferedWriter(new FileWriter("output1/"+nazev+".csv"));
@@ -14,13 +15,13 @@ public class Ukol1 {
             nextLine = br.readLine();
             String[] pole = nextLine.split(",");
             int cislo = Integer.parseInt(pole[0]);
-
             while(nextLine != null) {
                 pole = nextLine.split(",");
                 String spolecnost = najdiSpolecnost(Integer.parseInt(pole[1]));
                 bw.write(pole[0]+";"+spolecnost+";"+pole[2]);
                 bw.newLine();
                 celkem(pole[0]+";"+spolecnost+";"+pole[2]);
+                suma += Integer.parseInt(pole[2]);
                 nextLine = br.readLine();
                 if(spolecnost.contains("IČO") && !list.contains(Integer.parseInt(pole[1]))) {
                     list.add(Integer.parseInt(pole[1]));
@@ -39,7 +40,7 @@ public class Ukol1 {
 
         Ukol2.neznameSpolecnosti(list);
         Ukol3.neznameFaktury(list2);
-
+        return suma;
     }
 
     public static void celkem(String pridej) {
